@@ -1,0 +1,58 @@
+/* vertical centering */
+body {
+	display: table;
+}
+#container {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/* general layout */
+html, body, #container, header, #source, #repr {
+	width: 100%;
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	background: #eef8fc;
+}
+#container {
+	padding: 20px;
+}
+header {
+	width: 100%;
+	height: 50px;
+}
+#source.two-col, #repr.two-col {
+	position: absolute;
+	height: auto;
+	bottom: 20px;
+	top: 90px;
+	width: calc(50% - 30px);
+}
+#source.two-col {
+	left: 20px;
+}
+#repr.two-col {
+	right: 20px;
+}
+#source.hide {
+
+}
+#repr.hide {
+
+}
+.panel {
+	border: 1px solid #7fbc41;
+	box-shadow: 0 0 3px rgba(127, 188, 65, 0.5);
+	padding: 10px;
+	overflow: auto;
+	background-color: #fcfffc;
+}
+.panel:hover {
+	border: 1px solid #4d9221;
+	box-shadow: 0 0 3px rgba(76, 143, 33, 0.5);
+}
+
+
+/* debug */
