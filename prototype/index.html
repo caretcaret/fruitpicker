@@ -3,15 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>lilypad prototype</title>
-    <script type="text/javascript" src="jquery-2.0.0.js"></script>
-    <script type="text/javascript" src="rangy-core.js"></script>
+    <script src="rangy-core.js"></script>
+    <script src="d3.v3.js"></script>
     <link rel="stylesheet" type="text/css" href="screen.css">
   </head>
-  <body>
+  <body onload="document.getElementById('source').focus();">
     <div id="container">
       <header class="panel">lilypad</header>
-      <div id="source" class="two-col panel">content</div>
-      <div id="repr" class="two-col panel">content</div>
+      <div id="source" class="two-col panel editable" contenteditable="true">
+        <span class="placeholder">Paste your content here to begin!</span>
+      </div>
+      <div id="repr" class="two-col panel">
+        <svg xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
     </div>
+
+  <script>
+    //<![CDATA[
+    var repr = d3.select('#repr svg');
+    repr.selectAll('circle')
+        .data([40, 100, 300])
+        .enter().append('circle')
+        .attr('cy', 90)
+        .attr('cx', String)
+        .attr('r', 25);
+    //]]>
+  </script>
   </body>
 </html>

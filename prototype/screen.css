@@ -36,6 +36,15 @@ header {
 #repr.two-col {
 	right: 20px;
 }
+#repr.two-col svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: calc(100% + 2px);
+}
 #source.hide {
 
 }
@@ -45,14 +54,26 @@ header {
 .panel {
 	border: 1px solid #7fbc41;
 	box-shadow: 0 0 3px rgba(127, 188, 65, 0.5);
-	padding: 10px;
 	overflow: auto;
 	background-color: #fcfffc;
 }
-.panel:hover {
+#source {
+	padding: 10px;
+}
+.panel:hover, .panel:focus {
 	border: 1px solid #4d9221;
 	box-shadow: 0 0 3px rgba(76, 143, 33, 0.5);
+	outline: none;
 }
 
+/* text properties */
+body {
+	font-size: 20px;
+	font-family: sans-serif;
+	color: #0f0f0f;
+}
+.panel .placeholder {
+	color: #7f7f7f;
+}
 
 /* debug */
