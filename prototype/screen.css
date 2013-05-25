@@ -8,7 +8,7 @@ body {
 }
 
 /* general layout */
-html, body, #container, header, .panel {
+html, body, #container, .panel {
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -19,39 +19,22 @@ body {
 #container {
 	padding: 20px;
 }
-header {
-	width: 100%;
-	height: 50px;
-}
 .three-col {
 	position: absolute;
 	height: auto;
 	bottom: 20px;
 	top: 20px;
 }
-#source.three-col {
+#farm.three-col {
 	left: 20px;
 	width: calc(50% - 127.5px);
 }
-#control.three-col {
+#picker.three-col {
 	left: calc(50% - 87.5px);
 	right: calc(50% - 87.5px);
 	width: 175px;
 }
-#repr.three-col {
-	right: 20px;
-	width: calc(50% - 127.5px);
-}
-#repr.three-col svg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: calc(100% + 2px);
-}
-#control.three-col svg {
+#picker.three-col svg {
 	position: absolute;
 	top: 100;
 	left: 0;
@@ -60,11 +43,18 @@ header {
 	width: 100%;
 	height: calc(100% - 98px);
 }
-#source.hide {
-
+#harvest.three-col {
+	right: 20px;
+	width: calc(50% - 127.5px);
 }
-#repr.hide {
-
+#harvest.three-col svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: calc(100% + 2px);
 }
 .panel {
 	border: 1px solid #7fbc41;
@@ -72,7 +62,7 @@ header {
 	overflow: auto;
 	background-color: #fcfffc;
 }
-#source {
+#farm {
 	padding: 10px;
 }
 .panel:hover, .panel:focus {
@@ -90,14 +80,11 @@ body {
 .panel .placeholder {
 	color: #3f3f3f;
 }
-#control {
+#picker {
 	text-align: center;
 }
 .row-3 button {
 	width: 31%;
-}
-.row-2 button {
-	width: 48%;
 }
 
 /* debug */

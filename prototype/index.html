@@ -7,26 +7,22 @@
     <script src="d3.v3.js"></script>
     <link rel="stylesheet" type="text/css" href="screen.css">
   </head>
-  <body onload="document.getElementById('source').focus();">
+  <body onload="document.getElementById('farm').focus();">
     <div id="container">
-      <div id="source" class="three-col panel editable" contenteditable="true">
+      <div id="farm" class="three-col panel editable" contenteditable="true">
         <span class="placeholder">Paste your content here to begin!</span>
       </div>
-      <div id="control" class="three-col panel">
+      <div id="picker" class="three-col panel">
         <div>fruitpicker</div>
         <div class="row-3">
-          <button id="btn_new">New</button>
-          <button id="btn_import">Import</button>
-          <button id="btn_save">Save</button>
-        </div>
-        <div class="row-2">
           <button id="btn_vertex">Vertex</button>
           <button id="btn_edge">Edge</button>
+          <button id="btn_box">Box</button>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" id="construction"></svg>
+        <svg xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
-      <div id="repr" class="three-col panel">
-        <svg xmlns="http://www.w3.org/2000/svg" id="graph"></svg>
+      <div id="harvest" class="three-col panel">
+        <svg xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
     </div>
 
