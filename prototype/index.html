@@ -9,25 +9,27 @@
   </head>
   <body onload="document.getElementById('source').focus();">
     <div id="container">
-      <header class="panel">lilypad</header>
-      <div id="source" class="two-col panel editable" contenteditable="true">
+      <div id="source" class="three-col panel editable" contenteditable="true">
         <span class="placeholder">Paste your content here to begin!</span>
       </div>
-      <div id="repr" class="two-col panel">
-        <svg xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="control" class="three-col panel">
+        <div>lilypad</div>
+        <div class="row-3">
+          <button id="btn_new">New</button>
+          <button id="btn_import">Import</button>
+          <button id="btn_save">Save</button>
+        </div>
+        <div class="row-2">
+          <button id="btn_vertex">Vertex</button>
+          <button id="btn_edge">Edge</button>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" id="construction"></svg>
+      </div>
+      <div id="repr" class="three-col panel">
+        <svg xmlns="http://www.w3.org/2000/svg" id="graph"></svg>
       </div>
     </div>
 
-  <script>
-    //<![CDATA[
-    var repr = d3.select('#repr svg');
-    repr.selectAll('circle')
-        .data([40, 100, 300])
-        .enter().append('circle')
-        .attr('cy', 90)
-        .attr('cx', String)
-        .attr('r', 25);
-    //]]>
-  </script>
+    <script src="main.js"></script>
   </body>
 </html>

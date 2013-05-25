@@ -8,7 +8,7 @@ body {
 }
 
 /* general layout */
-html, body, #container, header, #source, #repr {
+html, body, #container, header, .panel {
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -23,20 +23,26 @@ header {
 	width: 100%;
 	height: 50px;
 }
-#source.two-col, #repr.two-col {
+.three-col {
 	position: absolute;
 	height: auto;
 	bottom: 20px;
-	top: 90px;
-	width: calc(50% - 30px);
+	top: 20px;
 }
-#source.two-col {
+#source.three-col {
 	left: 20px;
+	width: calc(50% - 127.5px);
 }
-#repr.two-col {
+#control.three-col {
+	left: calc(50% - 87.5px);
+	right: calc(50% - 87.5px);
+	width: 175px;
+}
+#repr.three-col {
 	right: 20px;
+	width: calc(50% - 127.5px);
 }
-#repr.two-col svg {
+#repr.three-col svg {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -44,6 +50,15 @@ header {
 	bottom: 0;
 	width: 100%;
 	height: calc(100% + 2px);
+}
+#control.three-col svg {
+	position: absolute;
+	top: 100;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: calc(100% - 98px);
 }
 #source.hide {
 
@@ -73,7 +88,16 @@ body {
 	color: #0f0f0f;
 }
 .panel .placeholder {
-	color: #7f7f7f;
+	color: #3f3f3f;
+}
+#control {
+	text-align: center;
+}
+.row-3 button {
+	width: 31%;
+}
+.row-2 button {
+	width: 48%;
 }
 
 /* debug */
