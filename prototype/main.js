@@ -1,7 +1,7 @@
 (function(){
 var harvest = d3.select('#harvest svg');
 // hack to get the dynamic dimensions of the svg
-var harvest_rect = harvest[0][0].getBoundingClientRect();
+var harvest_rect = d3.select('#harvest')[0][0].getBoundingClientRect();
 var harvest_w = harvest_rect.width;
 var harvest_h = harvest_rect.height;
 var constructor = d3.select('#picker svg');
@@ -153,9 +153,9 @@ document.getElementById('farm').focus();
 
 // on resize, recalculate dimensions of the harvest
 window.onresize = function() {
-  var rect = harvest[0][0].getBoundingClientRect();
-  harvest_w = rect.width;
-  harvest_h = rect.height;
+  harvest_rect = d3.select('#harvest')[0][0].getBoundingClientRect();
+  var harvest_w = harvest_rect.width;
+  var harvest_h = harvest_rect.height;
   force.size([harvest_w, harvest_h])
     .start();
 };
