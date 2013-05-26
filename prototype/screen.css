@@ -11,6 +11,7 @@ body {
 html, body, #container, .panel {
 	width: 100%;
 	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 body {
 	margin: 0;
@@ -26,7 +27,6 @@ body {
 	top: 20px;
 }
 #farm.three-col {
-	left: 20px;
 	width: calc(50% - 127.5px);
 }
 #picker.three-col {
