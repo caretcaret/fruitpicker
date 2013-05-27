@@ -4,7 +4,7 @@ var harvest = d3.select('#harvest svg');
 var harvest_rect = d3.select('#harvest')[0][0].getBoundingClientRect();
 var harvest_w = harvest_rect.width;
 var harvest_h = harvest_rect.height;
-var constructor = d3.select('#picker svg');
+var tags = d3.select('#tags');
 
 function rand(min, max) {
   return (Math.random() * (max - min)) + min;
@@ -56,8 +56,20 @@ function Graph(vertices, edges, groups, selection) {
 }
 
 /* TODO: integrate source data model with source selections */
-function Source() {}
-function Attribute() {}
+function Source(html, attributes) {
+  if (typeof(html) === 'undefined')
+    html = "";
+  if (typeof(attributes) === 'undefined')
+    attributes = [];
+  this.html = html;
+  this.attributes = attributes;
+}
+function Attribute(source, range) {
+  // source and range CAN be undefined,
+  // but if source is undefined, range cannot be defined
+  this.source = source;
+  this.range = range;
+}
 
 function Vertex(attributes, color) {
   if (typeof(attributes) === 'undefined')
@@ -90,8 +102,11 @@ function Group(vertices, labels) {
 }
 
 function showVertex(vertex) {
-  // TODO: Set picker viewer to display title/attributes of the
-  // selected vertex
+  tags.selectAll('li')
+    .data(vertex.attributes)
+    .enter().insert('li')
+    .text(function(d) { return d; });
+    // TODO: change to actual attribute implementation
 }
 
 var G = new Graph();
@@ -119,11 +134,11 @@ function tick() {
 }
 
 // when user clicks the vertex button
-function addVertex(attribute, color) {
-  if (typeof(attribute) === 'undefined')
-    attribute = "";
+function addVertex(title, color) {
+  if (typeof(title) === 'undefined')
+    title = "";
   // create vertex and add it to the graph/harvest
-  var v = new Vertex([attribute], color);
+  var v = new Vertex([title], color);
   force.nodes().push(v);
   fruits = fruits.data(force.nodes());
 
