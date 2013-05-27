@@ -70,6 +70,27 @@ body {
 	box-shadow: 0 0 3px rgba(76, 143, 33, 0.5);
 	outline: none;
 }
+#tags {
+	padding-left: 0;
+}
+#tags li {
+	list-style: none;
+	cursor: pointer;
+	padding: 5px;
+	font-size: 150%;
+	font-weight: bold;
+	color: #ffffff;
+	margin-bottom: 1px;
+	margin-left: 2px;
+	margin-right: 2px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+#tags li + li {
+	font-size: 90%;
+	font-weight: normal;
+	border-radius: 0;
+}
 
 /* text properties */
 body {

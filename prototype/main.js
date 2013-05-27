@@ -102,11 +102,36 @@ function Group(vertices, labels) {
 }
 
 function showVertex(vertex) {
+  var toShow = vertex.attributes.slice(0); // clone the array
+  if (toShow[0] === "")
+    toShow[0] = "+";
+  // remove previous vertex from picker
+  tags.selectAll('li').remove();
+
+  var orig = vertex.color.toString();
+  var brighter = vertex.color.brighter(0.6).toString();
+  var darker = vertex.color.darker(0.6).toString();
+  var gradient = 'linear-gradient(' + brighter + ',' + orig + ')';
+  
+  // add each attribute
   tags.selectAll('li')
-    .data(vertex.attributes)
+    .data(toShow)
     .enter().insert('li')
-    .text(function(d) { return d; });
-    // TODO: change to actual attribute implementation
+    .text(function(d) { return d; }) // TODO: change to actual attribute implementation
+    .attr('style', 'background:' + gradient + '; background: -webkit-' + gradient + ';')
+    // support both vendor prefixes
+    .style('border', '1px solid ' + darker);
+
+  // add 'add attribute' button
+  tags.append('li')
+    .text('+')
+    .attr('style', 'background:' + gradient + '; background: -webkit-' + gradient + ';')
+    // support both vendor prefixes
+    .style('border', '1px solid ' + darker)
+    .style('border-bottom-left-radius', '5px')
+    .style('border-bottom-right-radius', '5px');
+
+  // TODO: hover styles
 }
 
 var G = new Graph();
