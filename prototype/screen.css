@@ -73,11 +73,10 @@ body {
 #tags {
 	padding-left: 0;
 }
-#tags li {
-	list-style: none;
+#tags button {
 	cursor: pointer;
 	padding: 5px;
-	font-size: 150%;
+	font-size: 125%;
 	font-weight: bold;
 	color: #ffffff;
 	margin-bottom: 1px;
@@ -85,8 +84,9 @@ body {
 	margin-right: 2px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+	width: calc(100% - 4px);
 }
-#tags li + li {
+#tags button + button {
 	font-size: 90%;
 	font-weight: normal;
 	border-radius: 0;

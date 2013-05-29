@@ -11,7 +11,7 @@ function rand(min, max) {
 }
 
 function random_color() {
-  // We want to randomize the just the hue for now
+  // We want to randomize just the hue for now
   var h = rand(0, 360);
   return d3.hsl(h, 0.5, 0.5);
 }
@@ -56,26 +56,20 @@ function Graph(vertices, edges, groups, selection) {
 }
 
 /* TODO: integrate source data model with source selections */
-function Source(html, attributes) {
-  if (typeof(html) === 'undefined')
-    html = "";
-  if (typeof(attributes) === 'undefined')
-    attributes = [];
-  this.html = html;
-  this.attributes = attributes;
-}
-function Attribute(source, range) {
-  // source and range CAN be undefined,
-  // but if source is undefined, range cannot be defined
-  this.source = source;
-  this.range = range;
+function Attribute(selection) {
+  // range can be undefined
+  this.selection = selection;
+  if (typeof(selection) === 'undefined')
+    this.text = "";
+  else
+    this.text = selection.toString();
 }
 
 function Vertex(attributes, color) {
   if (typeof(attributes) === 'undefined')
     // maintain the invariant that attributes[0]
     // will always be the title
-    attributes = [""];
+    attributes = [new Attribute()];
   if (typeof(color) === 'undefined') {
     // set random color
     color = random_color();
@@ -102,11 +96,12 @@ function Group(vertices, labels) {
 }
 
 function showVertex(vertex) {
-  var toShow = vertex.attributes.slice(0); // clone the array
-  if (toShow[0] === "")
-    toShow[0] = "+";
+  // clone the array
+  var toShow = vertex.attributes.slice(0);
+  if (toShow[0].text === "")
+    toShow[0].text = "+";
   // remove previous vertex from picker
-  tags.selectAll('li').remove();
+  tags.selectAll('button').remove();
 
   var orig = vertex.color.toString();
   var brighter = vertex.color.brighter(0.6).toString();
@@ -114,16 +109,26 @@ function showVertex(vertex) {
   var gradient = 'linear-gradient(' + brighter + ',' + orig + ')';
   
   // add each attribute
-  tags.selectAll('li')
+  tags.selectAll('button')
     .data(toShow)
-    .enter().insert('li')
-    .text(function(d) { return d; }) // TODO: change to actual attribute implementation
+    .enter().insert('button')
+    .text(function(d) { return d.text; })
     .attr('style', 'background:' + gradient + '; background: -webkit-' + gradient + ';')
     // support both vendor prefixes
-    .style('border', '1px solid ' + darker);
+    .style('border', '1px solid ' + darker)
+    .on('mouseup', function(d, i) {
+      // if user clicked the title, update it with the new selection
+      if (i === 0) {
+        // TODO: if selection is empty, scroll source to corresponding selection 
+        var sel = rangy.getSelection();
+        var attr = new Attribute(sel);
+        updateTitle(vertex, attr);
+        showVertex(vertex);
+      }
+    });
 
   // add 'add attribute' button
-  tags.append('li')
+  tags.insert('button')
     .text('+')
     .attr('style', 'background:' + gradient + '; background: -webkit-' + gradient + ';')
     // support both vendor prefixes
@@ -132,6 +137,10 @@ function showVertex(vertex) {
     .style('border-bottom-right-radius', '5px');
 
   // TODO: hover styles
+}
+
+function updateTitle(vertex, title) {
+  vertex.attributes[0] = title;
 }
 
 var G = new Graph();
@@ -161,7 +170,7 @@ function tick() {
 // when user clicks the vertex button
 function addVertex(title, color) {
   if (typeof(title) === 'undefined')
-    title = "";
+    title = new Attribute();
   // create vertex and add it to the graph/harvest
   var v = new Vertex([title], color);
   force.nodes().push(v);
@@ -184,7 +193,9 @@ function addVertex(title, color) {
 // TODO: vertex should be selected for editing
 d3.select('#btn_vertex')
   .on('mouseup', function(e) {
-    var v = addVertex();
+    var sel = rangy.getSelection();
+    var attr = new Attribute(sel);
+    var v = addVertex(attr);
     showVertex(v);
   });
 
