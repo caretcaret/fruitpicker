@@ -78,6 +78,18 @@ function Vertex(attributes, color) {
   this.color = color;
 }
 
+Vertex.prototype.updateAttribute = function(index, attr) {
+  if (typeof(attr) === 'undefined' || attr.text === "")
+    return false;
+  // if attr already exists, just update it
+  if (0 <= index && index < this.attributes.length)
+      this.attributes[index] = attr;
+  // otherwise add a new attribute
+  else
+    this.attributes.push(attr);
+  return true;
+}
+
 function Edge(from, to, bidirectional) {
   if (typeof(bidirectional) === 'undefined')
     bidirectional = true;
@@ -96,10 +108,13 @@ function Group(vertices, labels) {
 }
 
 function showVertex(vertex) {
-  // clone the array
-  var toShow = vertex.attributes.slice(0);
-  if (toShow[0].text === "")
-    toShow[0].text = "+";
+  // generate strings to display in the picker
+  var toShow = vertex.attributes.map(function(attr) {
+    if (attr.text === "")
+      return "+";
+    return attr.text;
+  });
+  console.log(toShow);
   // remove previous vertex from picker
   tags.selectAll('button').remove();
 
@@ -107,25 +122,25 @@ function showVertex(vertex) {
   var brighter = vertex.color.brighter(0.6).toString();
   var darker = vertex.color.darker(0.6).toString();
   var gradient = 'linear-gradient(' + brighter + ',' + orig + ')';
+
+  var onClickAttribute = function(d, i) {
+    // if user clicked an attribute, update it with the new selection
+    // TODO: if selection is empty, scroll source to prior selection
+    var sel = rangy.getSelection();
+    var attr = new Attribute(sel);
+    vertex.updateAttribute(i, attr);
+    showVertex(vertex);
+  }
   
   // add each attribute
   tags.selectAll('button')
     .data(toShow)
     .enter().insert('button')
-    .text(function(d) { return d.text; })
+    .text(function(d) { return d; })
     .attr('style', 'background:' + gradient + '; background: -webkit-' + gradient + ';')
     // support both vendor prefixes
     .style('border', '1px solid ' + darker)
-    .on('mouseup', function(d, i) {
-      // if user clicked the title, update it with the new selection
-      if (i === 0) {
-        // TODO: if selection is empty, scroll source to corresponding selection 
-        var sel = rangy.getSelection();
-        var attr = new Attribute(sel);
-        updateTitle(vertex, attr);
-        showVertex(vertex);
-      }
-    });
+    .on('mouseup', onClickAttribute);
 
   // add 'add attribute' button
   tags.insert('button')
@@ -134,13 +149,11 @@ function showVertex(vertex) {
     // support both vendor prefixes
     .style('border', '1px solid ' + darker)
     .style('border-bottom-left-radius', '5px')
-    .style('border-bottom-right-radius', '5px');
+    .style('border-bottom-right-radius', '5px')
+    // add new attribute on click
+    .on('mouseup', function(d) { onClickAttribute(d, -1)});
 
   // TODO: hover styles
-}
-
-function updateTitle(vertex, title) {
-  vertex.attributes[0] = title;
 }
 
 var G = new Graph();
