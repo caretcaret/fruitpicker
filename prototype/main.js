@@ -76,6 +76,7 @@ function Vertex(attributes, color) {
   }
   this.attributes = attributes;
   this.color = color;
+  this.selected = false;
 }
 
 Vertex.prototype.updateAttribute = function(index, attr) {
@@ -114,7 +115,6 @@ function showVertex(vertex) {
       return "+";
     return attr.text;
   });
-  console.log(toShow);
   // remove previous vertex from picker
   tags.selectAll('button').remove();
 
@@ -123,13 +123,22 @@ function showVertex(vertex) {
   var darker = vertex.color.darker(0.6).toString();
   var gradient = 'linear-gradient(' + brighter + ',' + orig + ')';
 
+  // deselect other vertices and select this one
+  fruits.attr('stroke', function(d) {
+    return (d === vertex) ? darker : '#ffffff';
+  });
+
   var onClickAttribute = function(d, i) {
     // if user clicked an attribute, update it with the new selection
-    // TODO: if selection is empty, scroll source to prior selection
     var sel = rangy.getSelection();
     var attr = new Attribute(sel);
-    vertex.updateAttribute(i, attr);
-    showVertex(vertex);
+    // if selection is empty, scroll source to prior selection
+    if (attr.text === "") {
+      // TODO
+    } else {
+      vertex.updateAttribute(i, attr);
+      showVertex(vertex);
+    }
   }
   
   // add each attribute
@@ -196,7 +205,8 @@ function addVertex(title, color) {
     .attr('fill', function(d) { return d3.hsl(d.color).toString(); })
     .attr('stroke', '#ffffff')
     .attr('stroke-width', 2)
-    .call(force.drag);
+    .call(force.drag)
+    .on('mouseup', showVertex);
 
   force.start();
 
