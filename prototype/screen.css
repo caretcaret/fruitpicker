@@ -70,13 +70,10 @@ body {
 	box-shadow: 0 0 3px rgba(76, 143, 33, 0.5);
 	outline: none;
 }
-#tags {
-	padding-left: 0;
-}
-#tags.fruit button {
+#fruit_picker button {
 	cursor: pointer;
 	padding: 5px;
-	font-size: 125%;
+	font-size: 90%;
 	font-weight: bold;
 	color: #ffffff;
 	margin-bottom: 1px;
@@ -86,8 +83,7 @@ body {
 	border-top-right-radius: 5px;
 	width: calc(100% - 10px);
 }
-#tags.fruit button + button {
-	font-size: 90%;
+#fruit_picker button + button {
 	font-weight: normal;
 	border-radius: 0;
 }
