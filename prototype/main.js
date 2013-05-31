@@ -71,8 +71,8 @@ State.prototype = {
     this.fruit_picker = d3.select('#fruit_picker');
     this.vine_picker = d3.select('#vine_picker');
     this.basket_picker = d3.select('#basket_picker');
-    this.fruits = harvest.selectAll('.fruit');
-    this.vines = harvest.selectAll('.vine');
+    this.fruits = this.harvest.selectAll('.fruit');
+    this.vines = this.harvest.selectAll('.vine');
 
     this.force = d3.layout.force()
       .size(this.getHarvestDimensions())
