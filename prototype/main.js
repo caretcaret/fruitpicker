@@ -40,6 +40,7 @@ function random_color() {
  * graph -> harvest
  */
 
+// TODO: refactor into a structure representing state of the page
 function Graph(vertices, edges, groups, selection) {
   if (typeof(vertices) === 'undefined')
     vertices = [];
@@ -117,6 +118,8 @@ function showVertex(vertex) {
   });
   // remove previous vertex from picker
   tags.selectAll('button').remove();
+  tags.classed('fruit', true);
+  tags.classed('vine', false);
 
   var orig = vertex.color.toString();
   var brighter = vertex.color.brighter(0.6).toString();
@@ -165,6 +168,39 @@ function showVertex(vertex) {
   // TODO: hover styles
 }
 
+function showEdge(edge) {
+  // picker for edges requires 2 buttons for each vertex and
+  // a toggle button for the directionality.
+  // first, remove anything shown in the picker
+
+  tags.selectAll('button').remove();
+  tags.classed('fruit', false);
+  tags.classed('vine', true);
+
+  tags.append('button')
+    .text(function(d) {
+      if (typeof(edge.from) === 'undefined')
+        return '+';
+      return edge.from.attributes[0].text;
+    })
+  tags.append('button')
+    .text(function(d) {
+      if (edge.bidirectional)
+        return '\u2194'; // horizontal double arrow
+      return '\u2192'; // right arrow
+     })
+  tags.append('button')
+    .text(function(d) {
+      if (typeof(edge.to) === 'undefined')
+        return '+';
+      return edge.from.attributes[0].text;
+    });
+}
+
+function addEdge(from, to, bidirectional) {
+  var e = new Edge(from, to, bidirectional);
+}
+
 var G = new Graph();
 
 var force = d3.layout.force()
@@ -188,6 +224,9 @@ function tick() {
   fruits.attr('cx', function(d) { return d.x; })
     .attr('cy', function(d) { return d.y; });
 }
+
+// TODO
+function deleteVertex(vertex) {}
 
 // when user clicks the vertex button
 function addVertex(title, color) {
@@ -213,7 +252,6 @@ function addVertex(title, color) {
   return v;
 }
 
-// TODO: vertex should be selected for editing
 d3.select('#btn_vertex')
   .on('mouseup', function(e) {
     var sel = rangy.getSelection();
@@ -221,6 +259,12 @@ d3.select('#btn_vertex')
     var v = addVertex(attr);
     showVertex(v);
   });
+
+d3.select('#btn_edge')
+  .on('mouseup', function(e) {
+    var e = new Edge();
+    showEdge(e);
+  })
 
 // set the caret inside the farm on page load
 document.getElementById('farm').focus();

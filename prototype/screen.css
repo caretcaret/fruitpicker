@@ -73,7 +73,7 @@ body {
 #tags {
 	padding-left: 0;
 }
-#tags button {
+#tags.fruit button {
 	cursor: pointer;
 	padding: 5px;
 	font-size: 125%;
@@ -84,9 +84,9 @@ body {
 	margin-right: 2px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-	width: calc(100% - 4px);
+	width: calc(100% - 10px);
 }
-#tags button + button {
+#tags.fruit button + button {
 	font-size: 90%;
 	font-weight: normal;
 	border-radius: 0;
@@ -104,8 +104,11 @@ body {
 #picker {
 	text-align: center;
 }
+.row-2 button {
+	width: 40%;
+}
 .row-3 button {
-	width: 31%;
+	width: 25%;
 }
 
 /* debug */
