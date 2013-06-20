@@ -133,6 +133,7 @@ State.prototype = {
         return '#ffffff';
       return darker;
     });
+    this.harvest.classed('edgepicker', false);
 
     var onClickAttribute = function(d, i) {
       // if user clicked an attribute, update it with the new selection
@@ -178,13 +179,14 @@ State.prototype = {
     this.vertices.push(v);
     
     this.fruits = this.fruits.data(this.vertices);
-    this.fruits.enter().insert('circle')
+    this.fruits.enter()
+      .insert('circle')
       .classed('fruit', true)
       .attr('r', 7.5)
       .attr('fill', function(d) { return d3.hsl(d.color).toString(); })
       .attr('stroke-width', 2)
       .call(this.force.drag)
-      .on('mouseup', function(d) {
+      .on('click', function(d) {
         state.selectVertex(d);
       });
 
@@ -196,6 +198,7 @@ State.prototype = {
     // picker for edges requires 2 buttons for each vertex and
     // a toggle button for the directionality.
     // first, remove everything in the picker
+    var state = this;
     this.fruit_picker.style('display', 'none');
     this.basket_picker.style('display', 'none');
 
@@ -225,6 +228,22 @@ State.prototype = {
           return "+";
         return edge.to.attributes[0].text;
       });
+    // show a crosshair symbol to drag between two vertices
+    this.harvest.classed('edgepicker', true);
+    // dragging motion
+    this.fruits.on('mousedown.drag', function(d) { d3.event.preventDefault(); edge.from = d; })
+      .on('mousemove.drag', function(d) { d3.event.preventDefault(); })
+      .on('mouseup.drag', function(d) {
+        d3.event.preventDefault();
+        edge.to = d;
+        state.fruits.call(state.force.drag);
+        state.harvest.classed('edgepicker', false);
+        console.log(edge);
+      })
+      .attr('draggable', 'false')
+      .on('dragstart', function(d) { d3.event.preventDefault(); return false; })
+      .on('dragmove', function(d) { d3.event.preventDefault(); return false; })
+      .on('dragend', function(d) { d3.event.preventDefault(); return false; });
   },
   addEdge: function() {
     var e = new Edge(from, to, bidirectional);
