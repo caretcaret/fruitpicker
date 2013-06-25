@@ -79,6 +79,7 @@ State.prototype = {
       .nodes(this.vertices)
       .links(this.edges)
       .charge(-50)
+      .linkDistance(30)
       .on('tick', function() {
         state.tick();
       });
@@ -231,13 +232,20 @@ State.prototype = {
     // show a crosshair symbol to drag between two vertices
     this.harvest.classed('edgepicker', true);
     // dragging motion
-    this.fruits.on('mousedown.drag', function(d) { d3.event.preventDefault(); edge.from = d; })
-      .on('mousemove.drag', function(d) { d3.event.preventDefault(); })
+    this.fruits.on('mousedown.drag', function(d) {
+        d3.event.preventDefault();
+        edge.from = d;
+      })
+      .on('mousemove.drag', function(d) {
+        d3.event.preventDefault();
+      })
       .on('mouseup.drag', function(d) {
         d3.event.preventDefault();
         edge.to = d;
         state.fruits.call(state.force.drag);
         state.harvest.classed('edgepicker', false);
+        state.edges.push(edge);
+        state.vines = state.vines.data(state.edges);
         console.log(edge);
       })
       .attr('draggable', 'false')
